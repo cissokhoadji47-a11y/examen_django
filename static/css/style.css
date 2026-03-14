@@ -1,0 +1,206 @@
+/* style.css - Version personnalisée */
+
+:root {
+    --esmt-primary: #1a3b5d;  /* Bleu foncé - Couleur ESMT */
+    --esmt-secondary: #c49b3f; /* Or - Pour une touche élégante */
+    --esmt-success: #2e7d32;   /* Vert foncé */
+    --esmt-danger: #b71c1c;    /* Rouge foncé */
+    --esmt-warning: #ff8f00;   /* Orange */
+    --esmt-light: #f5f7fa;     /* Gris très clair */
+    --esmt-dark: #0a1a2a;      /* Presque noir */
+}
+
+/* Navigation personnalisée */
+.navbar {
+    background: linear-gradient(135deg, var(--esmt-primary), var(--esmt-dark)) !important;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.navbar-brand {
+    font-family: 'Segoe UI', 'Roboto', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+/* Cards avec effet 3D léger */
+.card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.card-header {
+    border-radius: 12px 12px 0 0 !important;
+    font-weight: 600;
+    background: linear-gradient(135deg, var(--esmt-primary), var(--esmt-dark)) !important;
+    color: white !important;
+    border-bottom: none;
+}
+
+/* Boutons personnalisés */
+.btn-esmt-primary {
+    background: linear-gradient(135deg, var(--esmt-primary), var(--esmt-dark));
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-esmt-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(26, 59, 93, 0.4);
+    color: white;
+}
+
+.btn-esmt-outline {
+    background: transparent;
+    border: 2px solid var(--esmt-primary);
+    color: var(--esmt-primary);
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-weight: 500;
+}
+
+.btn-esmt-outline:hover {
+    background: var(--esmt-primary);
+    color: white;
+}
+
+/* Badges de statut personnalisés */
+.statut-badge {
+    padding: 6px 12px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+.statut-a_faire {
+    background: #fff3e0;
+    color: #e65100;
+    border: 1px solid #ffb74d;
+}
+
+.statut-en_cours {
+    background: #e3f2fd;
+    color: #0d47a1;
+    border: 1px solid #64b5f6;
+}
+
+.statut-termine {
+    background: #e8f5e9;
+    color: #1b5e20;
+    border: 1px solid #81c784;
+}
+
+/* Page d'accueil personnalisée */
+.hero-section {
+    background: linear-gradient(135deg, var(--esmt-primary), var(--esmt-dark));
+    color: white;
+    padding: 60px 0;
+    border-radius: 0 0 50px 50px;
+    margin-bottom: 40px;
+}
+
+.hero-section h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.feature-card {
+    text-align: center;
+    padding: 30px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.feature-card i {
+    font-size: 3rem;
+    color: var(--esmt-primary);
+    margin-bottom: 20px;
+}
+
+/* Tableaux personnalisés */
+.table-custom {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.table-custom thead {
+    background: linear-gradient(135deg, var(--esmt-primary), var(--esmt-dark));
+    color: white;
+}
+
+.table-custom th {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    padding: 15px;
+}
+
+.table-custom td {
+    padding: 15px;
+    vertical-align: middle;
+}
+
+/* Formulaire personnalisé */
+.form-custom {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.form-custom input,
+.form-custom select,
+.form-custom textarea {
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    padding: 12px;
+    transition: all 0.3s ease;
+}
+
+.form-custom input:focus,
+.form-custom select:focus,
+.form-custom textarea:focus {
+    border-color: var(--esmt-primary);
+    box-shadow: 0 0 0 3px rgba(26, 59, 93, 0.1);
+}
+
+.form-custom label {
+    font-weight: 500;
+    color: var(--esmt-dark);
+    margin-bottom: 5px;
+}
+
+/* Footer personnalisé */
+.footer-custom {
+    background: linear-gradient(135deg, var(--esmt-dark), #000);
+    color: white;
+    padding: 30px 0;
+    margin-top: 60px;
+}
+
+/* Animation de chargement */
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.loading {
+    animation: pulse 1.5s infinite;
+}

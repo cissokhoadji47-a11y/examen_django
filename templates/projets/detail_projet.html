@@ -1,0 +1,220 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="mb-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <h1>{{ projet.titre }}</h1>
+        <div>
+            {% if user == projet.createur %}
+                <a href="{% url 'modifier_projet' projet.id %}" class="btn btn-warning">
+                    <i class="bi bi-pencil"></i> Modifier
+                </a>
+                <a href="{% url 'supprimer_projet' projet.id %}" class="btn btn-danger">
+                    <i class="bi bi-trash"></i> Supprimer
+                </a>
+            {% endif %}
+            <a href="{% url 'liste_projets' %}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Retour
+            </a>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Description</h5>
+                </div>
+                <div class="card-body">
+                    <p>{{ projet.description|default:"Aucune description fournie."|linebreaks }}</p>
+                </div>
+            </div>
+
+            <!-- Section des tâches -->
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="bi bi-list-task"></i> Tâches du projet</h5>
+                    {% if user == projet.createur %}
+                        <a href="{% url 'creer_tache' projet.id %}" class="btn btn-sm btn-primary">
+                            <i class="bi bi-plus-circle"></i> Nouvelle tâche
+                        </a>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    {% if taches %}
+                        <div class="list-group">
+                            {% for tache in taches %}
+                                <div class="list-group-item">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h6 class="mb-1">{{ tache.titre }}</h6>
+                                            <p class="mb-1 text-muted small">{{ tache.description|truncatewords:30 }}</p>
+                                            <small>
+                                                <i class="bi bi-person"></i> Assigné à:
+                                                {% if tache.assigne_a %}
+                                                    {{ tache.assigne_a.username }}
+                                                {% else %}
+                                                    <span class="text-muted">Non assigné</span>
+                                                {% endif %}
+                                            </small>
+                                            <br>
+                                            <small class="text-{% if tache.date_limite < today %}danger{% else %}info{% endif %}">
+                                                <i class="bi bi-calendar"></i> Limite: {{ tache.date_limite|date:"d/m/Y" }}
+                                            </small>
+                                        </div>
+                                        <div class="text-end">
+                                            <span class="badge statut-badge statut-{{ tache.statut }} mb-2">
+                                                {{ tache.get_statut_display }}
+                                            </span>
+                                            <br>
+                                            {% if user == projet.createur or user == tache.assigne_a %}
+                                                <div class="btn-group btn-group-sm">
+                                                    <a href="{% url 'modifier_tache' tache.id %}" class="btn btn-outline-warning">
+                                                        <i class="bi bi-pencil"></i>
+                                                    </a>
+                                                    <button type="button" class="btn btn-outline-primary"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#statutModal{{ tache.id }}">
+                                                        <i class="bi bi-arrow-repeat"></i>
+                                                    </button>
+                                                    {% if user == projet.createur %}
+                                                        <a href="{% url 'supprimer_tache' tache.id %}" class="btn btn-outline-danger">
+                                                            <i class="bi bi-trash"></i>
+                                                        </a>
+                                                    {% endif %}
+                                                </div>
+
+                                                <!-- Modal pour changer le statut -->
+                                                <div class="modal fade" id="statutModal{{ tache.id }}" tabindex="-1">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <form action="{% url 'changer_statut' tache.id %}" method="POST">
+                                                                {% csrf_token %}
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title">Changer le statut</h5>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <select name="statut" class="form-select">
+                                                                        <option value="a_faire" {% if tache.statut == 'a_faire' %}selected{% endif %}>À faire</option>
+                                                                        <option value="en_cours" {% if tache.statut == 'en_cours' %}selected{% endif %}>En cours</option>
+                                                                        <option value="termine" {% if tache.statut == 'termine' %}selected{% endif %}>Terminé</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                                                    <button type="submit" class="btn btn-primary">Changer</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-muted mb-0">Aucune tâche dans ce projet.</p>
+                        {% if user == projet.createur %}
+                            <a href="{% url 'creer_tache' projet.id %}" class="btn btn-sm btn-primary mt-3">
+                                <i class="bi bi-plus-circle"></i> Ajouter une première tâche
+                            </a>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <!-- Informations sur le projet -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Informations</h5>
+                </div>
+                <div class="card-body">
+                    <p><i class="bi bi-person-badge"></i> <strong>Créateur:</strong> {{ projet.createur.username }}</p>
+                    <p><i class="bi bi-calendar"></i> <strong>Créé le:</strong> {{ projet.date_creation|date:"d/m/Y" }}</p>
+                    <p><i class="bi bi-list-task"></i> <strong>Total tâches:</strong> {{ total_taches }}</p>
+                    <p><i class="bi bi-check-circle"></i> <strong>Tâches terminées:</strong> {{ taches_terminees }}</p>
+                    <p><i class="bi bi-graph-up"></i> <strong>Progression:</strong></p>
+                    <div class="progress mb-3">
+                        <div class="progress-bar" role="progressbar"
+                             style="width: {{ progression }}%;"
+                             aria-valuenow="{{ progression }}"
+                             aria-valuemin="0"
+                             aria-valuemax="100">
+                            {{ progression|floatformat:1 }}%
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Membres du projet -->
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="bi bi-people"></i> Membres</h5>
+                    {% if user == projet.createur %}
+                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#ajouterMembreModal">
+                            <i class="bi bi-plus"></i> Ajouter
+                        </button>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        {% for membre in projet.membres.all %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <i class="bi bi-person-circle"></i> {{ membre.username }}
+                                    {% if membre == projet.createur %}
+                                        <span class="badge bg-primary">Créateur</span>
+                                    {% endif %}
+                                    <br>
+                                    <small class="text-muted">{{ membre.get_role_display }}</small>
+                                </div>
+                                {% if user == projet.createur and membre != projet.createur %}
+                                    <a href="{% url 'retirer_membre' projet.id membre.id %}"
+                                       class="btn btn-sm btn-danger"
+                                       onclick="return confirm('Retirer {{ membre.username }} du projet ?')">
+                                        <i class="bi bi-x"></i>
+                                    </a>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal pour ajouter un membre -->
+{% if user == projet.createur %}
+<div class="modal fade" id="ajouterMembreModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="{% url 'ajouter_membre' projet.id %}" method="POST">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title">Ajouter un membre</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Nom d'utilisateur</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                        <div class="form-text">Entrez le nom d'utilisateur de la personne à ajouter</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Ajouter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

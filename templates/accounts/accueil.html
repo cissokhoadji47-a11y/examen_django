@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+
+{% block title %}Accueil - ESMT Projets{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="hero-section text-center">
+    <div class="container">
+        <h1 class="display-3 fw-bold mb-4">Gérez vos projets collaboratifs</h1>
+        <p class="lead fs-3 mb-5">Une plateforme simple et efficace pour les enseignants et étudiants de l'ESMT</p>
+
+        {% if not user.is_authenticated %}
+            <div class="d-flex justify-content-center gap-3">
+                <a href="{% url 'inscription' %}" class="btn btn-lg btn-esmt-primary px-5 py-3">
+                    <i class="fas fa-rocket me-2"></i>Commencer
+                </a>
+                <a href="{% url 'login' %}" class="btn btn-lg btn-esmt-outline px-5 py-3">
+                    <i class="fas fa-sign-in-alt me-2"></i>Se connecter
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Fonctionnalités -->
+<div class="container my-5">
+    <h2 class="text-center mb-5 display-6 fw-bold">Pourquoi choisir notre plateforme ?</h2>
+
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="feature-card h-100">
+                <i class="fas fa-users"></i>
+                <h4>Collaboration facile</h4>
+                <p class="text-muted">Travaillez ensemble sur vos projets, partagez les tâches et suivez la progression en temps réel.</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="feature-card h-100">
+                <i class="fas fa-chart-pie"></i>
+                <h4>Statistiques détaillées</h4>
+                <p class="text-muted">Visualisez vos performances avec des graphiques clairs et des indicateurs précis.</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="feature-card h-100">
+                <i class="fas fa-trophy"></i>
+                <h4>Système de primes</h4>
+                <p class="text-muted">Les enseignants peuvent bénéficier de primes jusqu'à 100 000 FCFA selon leurs résultats.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Statistiques -->
+<div class="bg-light py-5 my-5">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-3">
+                <div class="display-1 fw-bold text-primary">50+</div>
+                <p class="text-muted">Projets réalisés</p>
+            </div>
+            <div class="col-md-3">
+                <div class="display-1 fw-bold text-success">200+</div>
+                <p class="text-muted">Utilisateurs actifs</p>
+            </div>
+            <div class="col-md-3">
+                <div class="display-1 fw-bold text-warning">1000+</div>
+                <p class="text-muted">Tâches accomplies</p>
+            </div>
+            <div class="col-md-3">
+                <div class="display-1 fw-bold text-info">5M+</div>
+                <p class="text-muted">F CFA de primes versées</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Témoignages -->
+<div class="container my-5">
+    <h2 class="text-center mb-5 display-6 fw-bold">Ce qu'ils disent de nous</h2>
+
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="text-warning mb-3">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="fst-italic">"Cette plateforme a révolutionné la façon dont nous gérons les projets à l'ESMT. Simple et efficace !"</p>
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-user-circle fa-2x me-3 text-primary"></i>
+                        <div>
+                            <strong>Dr. Diallo</strong>
+                            <br>
+                            <small class="text-muted">Professeur</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="text-warning mb-3">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="fst-italic">"Grâce au système de primes, je suis encore plus motivé à bien faire mon travail. Une excellente initiative !"</p>
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-user-circle fa-2x me-3 text-success"></i>
+                        <div>
+                            <strong>M. Ndiaye</strong>
+                            <br>
+                            <small class="text-muted">Professeur</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="text-warning mb-3">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="fst-italic">"Je peux facilement suivre l'avancement de mes projets et collaborer avec mes camarades. Super outil !"</p>
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-user-circle fa-2x me-3 text-info"></i>
+                        <div>
+                            <strong>Aminata</strong>
+                            <br>
+                            <small class="text-muted">Étudiante</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <h4 class="mb-0"><i class="bi bi-exclamation-triangle"></i> Confirmer la suppression</h4>
+            </div>
+            <div class="card-body">
+                <p class="lead">Êtes-vous sûr de vouloir supprimer la tâche <strong>"{{ tache.titre }}"</strong> ?</p>
+                
+                <p><strong>Projet :</strong> {{ tache.projet.titre }}</p>
+                <p><strong>Assignée à :</strong> {{ tache.assigne_a.username|default:"Personne" }}</p>
+                <p><strong>Date limite :</strong> {{ tache.date_limite|date:"d/m/Y" }}</p>
+                
+                <div class="alert alert-warning">
+                    <i class="bi bi-info-circle"></i> Cette action est irréversible.
+                </div>
+                
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'detail_projet' tache.projet.id %}" class="btn btn-secondary">
+                            <i class="bi bi-x-circle"></i> Annuler
+                        </a>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-trash"></i> Confirmer la suppression
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

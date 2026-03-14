@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><i class="bi bi-kanban"></i> Mes Projets</h1>
+    <a href="{% url 'creer_projet' %}" class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i> Nouveau Projet
+    </a>
+</div>
+
+<!-- Projets créés par l'utilisateur -->
+<div class="mb-5">
+    <h3 class="mb-3">Mes projets</h3>
+    {% if projets_crees %}
+        <div class="row">
+            {% for projet in projets_crees %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="card-title mb-0">{{ projet.titre }}</h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">{{ projet.description|truncatewords:20|default:"Aucune description" }}</p>
+
+                            <!-- Statistiques -->
+                            <div class="mb-2">
+                                <small class="text-muted">
+                                    <i class="bi bi-list-task"></i> {{ projet.total_taches }} tâche(s)
+                                </small>
+                            </div>
+
+                            {% if projet.total_taches > 0 %}
+                                <div class="progress mb-2" style="height: 5px;">
+                                    <div class="progress-bar" role="progressbar"
+                                         style="width: {{ projet.progression }}%;"
+                                         aria-valuenow="{{ projet.progression }}"
+                                         aria-valuemin="0"
+                                         aria-valuemax="100"></div>
+                                </div>
+                                <small class="text-muted">{{ projet.progression|floatformat:1 }}% terminé</small>
+                            {% endif %}
+
+                            <p class="mb-1 mt-2">
+                                <small class="text-muted">
+                                    <i class="bi bi-people"></i>
+                                    {{ projet.membres.count }} membre(s)
+                                </small>
+                            </p>
+                            <p>
+                                <small class="text-muted">
+                                    <i class="bi bi-calendar"></i>
+                                    Créé le {{ projet.date_creation|date:"d/m/Y" }}
+                                </small>
+                            </p>
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <a href="{% url 'detail_projet' projet.id %}" class="btn btn-sm btn-outline-primary w-100">
+                                <i class="bi bi-eye"></i> Voir le projet
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}  <!-- ← Vérifie que c'est bien endfor et pas autre chose -->
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            <i class="bi bi-info-circle"></i> Vous n'avez pas encore créé de projet.
+            <a href="{% url 'creer_projet' %}" class="alert-link">Créer mon premier projet</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

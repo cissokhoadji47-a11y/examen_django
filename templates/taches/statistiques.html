@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="mb-4"><i class="bi bi-graph-up"></i> Mes statistiques</h1>
+        
+        <!-- Filtres -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <form method="GET" class="row g-3">
+                    <div class="col-md-4">
+                        <label for="annee" class="form-label">Année</label>
+                        <select name="annee" id="annee" class="form-select">
+                            {% for a in annees %}
+                                <option value="{{ a }}" {% if a == annee %}selected{% endif %}>{{ a }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="trimestre" class="form-label">Trimestre</label>
+                        <select name="trimestre" id="trimestre" class="form-select">
+                            <option value="">Toute l'année</option>
+                            <option value="1" {% if trimestre == 1 %}selected{% endif %}>1er Trimestre (Jan-Mar)</option>
+                            <option value="2" {% if trimestre == 2 %}selected{% endif %}>2ème Trimestre (Avr-Juin)</option>
+                            <option value="3" {% if trimestre == 3 %}selected{% endif %}>3ème Trimestre (Juil-Sept)</option>
+                            <option value="4" {% if trimestre == 4 %}selected{% endif %}>4ème Trimestre (Oct-Dec)</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="bi bi-filter"></i> Filtrer
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Cartes de statistiques -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card text-white bg-primary">
+                    <div class="card-body">
+                        <h5 class="card-title">Total tâches</h5>
+                        <h2>{{ stats.total }}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-white bg-success">
+                    <div class="card-body">
+                        <h5 class="card-title">Tâches réussies</h5>
+                        <h2>{{ stats.reussies }}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-white bg-info">
+                    <div class="card-body">
+                        <h5 class="card-title">Taux de réussite</h5>
+                        <h2>{{ stats.taux }}%</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-white {% if stats.prime > 0 %}bg-warning{% else %}bg-secondary{% endif %}">
+                    <div class="card-body">
+                        <h5 class="card-title">Prime</h5>
+                        <h2>{{ stats.prime }} FCFA</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Message spécial si prime -->
+        {% if stats.prime > 0 %}
+            <div class="alert alert-success">
+                <i class="bi bi-trophy-fill"></i>
+                Félicitations ! Vous avez droit à une prime de <strong>{{ stats.prime }} FCFA</strong>
+                ({{ stats.taux }}% de tâches terminées dans les délais)
+            </div>
+        {% endif %}
+        
+        <!-- Détail des tâches -->
+        <div class="card">
+            <div class="card-header">
+                <h5>Détail des tâches</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Tâche</th>
+                                <th>Projet</th>
+                                <th>Date limite</th>
+                                <th>Date fin réelle</th>
+                                <th>Statut</th>
+                                <th>Dans les délais</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for tache in taches %}
+                                <tr>
+                                    <td>{{ tache.titre }}</td>
+                                    <td>{{ tache.projet.titre }}</td>
+                                    <td>{{ tache.date_limite|date:"d/m/Y" }}</td>
+                                    <td>{{ tache.date_fin_reelle|date:"d/m/Y"|default:"-" }}</td>
+                                    <td>
+                                        <span class="badge statut-badge statut-{{ tache.statut }}">
+                                            {{ tache.get_statut_display }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        {% if tache.statut == 'termine' %}
+                                            {% if tache.date_fin_reelle <= tache.date_limite %}
+                                                <i class="bi bi-check-circle-fill text-success"></i> Oui
+                                            {% else %}
+                                                <i class="bi bi-x-circle-fill text-danger"></i> Non (hors délai)
+                                            {% endif %}
+                                        {% else %}
+                                            <span class="text-muted">-</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="6" class="text-center">Aucune tâche sur cette période</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

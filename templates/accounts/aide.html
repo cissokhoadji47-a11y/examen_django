@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="mb-4">Centre d'aide</h1>
+        
+        <div class="accordion" id="accordionAide">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1">
+                        Comment créer un projet ?
+                    </button>
+                </h2>
+                <div id="collapse1" class="accordion-collapse collapse show" data-bs-parent="#accordionAide">
+                    <div class="accordion-body">
+                        <p>Pour créer un projet :</p>
+                        <ol>
+                            <li>Connectez-vous à votre compte</li>
+                            <li>Cliquez sur "Mes Projets" dans le menu</li>
+                            <li>Cliquez sur le bouton "Nouveau Projet"</li>
+                            <li>Remplissez le titre et la description</li>
+                            <li>Cliquez sur "Créer le projet"</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2">
+                        Comment ajouter une tâche ?
+                    </button>
+                </h2>
+                <div id="collapse2" class="accordion-collapse collapse" data-bs-parent="#accordionAide">
+                    <div class="accordion-body">
+                        <p>Pour ajouter une tâche à un projet :</p>
+                        <ol>
+                            <li>Ouvrez le projet concerné</li>
+                            <li>Cliquez sur "Nouvelle tâche"</li>
+                            <li>Remplissez le titre, la description, la date limite</li>
+                            <li>Assignez la tâche à un membre (optionnel)</li>
+                            <li>Cliquez sur "Créer la tâche"</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3">
+                        Comment fonctionne le système de primes ?
+                    </button>
+                </h2>
+                <div id="collapse3" class="accordion-collapse collapse" data-bs-parent="#accordionAide">
+                    <div class="accordion-body">
+                        <p>Les professeurs peuvent bénéficier de primes selon leurs performances :</p>
+                        <ul>
+                            <li><strong>30 000 FCFA</strong> : 90% des tâches terminées dans les délais</li>
+                            <li><strong>100 000 FCFA</strong> : 100% des tâches terminées dans les délais</li>
+                        </ul>
+                        <p>Les statistiques sont calculées automatiquement et visibles dans la section "Mes statistiques".</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
