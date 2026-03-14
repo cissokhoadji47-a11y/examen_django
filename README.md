@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Application de Gestion des Tâches Collaboratives
 Description
 
@@ -89,4 +90,3 @@ Création et gestion des tâches
 
 Attribution des tâches aux utilisateurs
 
-Suivi du statut des tâches
